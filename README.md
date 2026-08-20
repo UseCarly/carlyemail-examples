@@ -28,8 +28,7 @@ python agent.py                         # one pass over the inbox
 ```
 
 Every example has an `agent.py` (one pass) and a `webhook.py` (the same pass
-when mail arrives). `tests/` drives each `webhook.py` with real signed
-deliveries.
+when mail arrives).
 
 ## License
 

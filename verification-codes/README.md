@@ -21,13 +21,13 @@ code.value                                              # "482913"
 `codes.py` is the whole thing. No model. Copy it into the agent that needs
 it.
 
-## What it gets right
+## What it does
 
-- Only mail that arrived **after you asked** — not a code from an earlier try
-- Only the **sender you name**, by address or domain
-- The **code, not the order number**: digits next to words like *code*,
-  *verify*, *one-time*, six-digit runs preferred
-- A **timeout**, not a guess
+- Waits only for mail that arrived after you called it
+- Filters by sender, as an address or a domain
+- Finds the code, not the order number — digits next to *code*, *verify*,
+  *one-time*; six digits preferred
+- Raises after `timeout` seconds
 
 ## Run it
 

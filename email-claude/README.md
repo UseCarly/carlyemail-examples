@@ -2,8 +2,7 @@
 
 > You write to an address. Claude answers.
 
-No persona, no tools, nothing to configure: the entire email integration with
-nothing else in the way. Read it first.
+No persona, no tools, nothing to configure. The smallest possible email agent.
 
 | | |
 |---|---|
@@ -20,10 +19,5 @@ export ALLOWED_SENDERS=you@yourcompany.com
 python listen.py
 ```
 
-Claude holds no tools, so the worst an instruction inside an email can do is
-change the words of one reply to the person who sent it. What it does still
-cost is tokens — set `ALLOWED_SENDERS` unless the address is meant to be
-public.
-
-The email half is covered by `tests/`; the model call has not been run here
-yet.
+Set `ALLOWED_SENDERS` unless the address is meant to be public — every email
+in costs a model call.

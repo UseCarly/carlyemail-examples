@@ -1,6 +1,6 @@
 # Support desk
 
-> Answers from your docs. Escalates the rest to a person, and never loses it.
+> Answers from your docs. Escalates the rest to a person.
 
 A support inbox run by an agent. For each email it:
 
@@ -32,19 +32,15 @@ uvicorn webhook:app --port 8080   # or: run when mail arrives
 
 ## How it works
 
-1. A triage agent reads the thread, reads the docs (`list_docs`,
-   `read_doc`), checks the customer's history, and decides: reply or
-   escalate.
-2. Code does everything with consequences — forwarding, labelling, the
-   reminder, the customer note, the relay — with ids from the message in
-   hand. The model never holds `forward_message` or `send_message`.
-3. The forward's subject carries the customer thread's id, so the person's
-   reply finds its way back with no state but labels.
-4. A relay agent turns the person's terse answer into the email the
-   customer reads.
+1. The agent reads the thread, reads your docs, checks the customer's
+   history, and decides: reply or escalate.
+2. On escalate, code forwards the thread to `HUMAN` with a summary, labels
+   it `needs-human`, schedules a reminder, and tells the customer.
+3. When `HUMAN` replies to the forward, the next pass writes their answer
+   up as a reply to the customer and cancels the reminder.
 
 ## Customize
 
-- `DOCS` and `PRODUCT` make it yours.
-- `NUDGE_AFTER` in `agent.py` is how long a person gets before the reminder.
-- Give it an [inbox-scoped key](https://docs.carlyemail.com/authentication).
+- `DOCS`, `PRODUCT` — your docs and your name.
+- `NUDGE_AFTER` in `agent.py` — how long a person gets before the reminder.
+- `TRIAGE_INSTRUCTIONS` — tone, and what counts as needing a person.

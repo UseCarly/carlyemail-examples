@@ -10,9 +10,8 @@ answers what it can from the thread, and writes a draft — instead of sending
 | [`langchain/`](langchain) | LangChain + LangGraph | `OPENAI_API_KEY` |
 | [`claude/`](claude) | Claude Agent SDK | `ANTHROPIC_API_KEY` |
 
-All three use the hosted MCP server, so there are no tool wrappers: the
-CarlyEmail half is the same three lines in each, and the diff between the
-directories is the framework.
+All three connect to the hosted MCP server, so there are no tool wrappers
+to write.
 
 ```bash
 cd openai        # or langchain, or claude
@@ -21,10 +20,3 @@ cp .env.example .env
 python agent.py                   # one pass
 uvicorn webhook:app --port 8080   # or: run when mail arrives
 ```
-
-## What the prompts insist on
-
-- Five named tools, not all of them
-- Reply on the thread; a draft is a reply too — never mail to an address the
-  thread did not name
-- Filter to `received`, read `extracted_text`

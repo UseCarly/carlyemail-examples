@@ -27,9 +27,9 @@ uvicorn webhook:app --port 8080   # or: run when mail arrives
 ## How it works
 
 1. A task arrives from an allowed sender naming an allowed repository.
-2. The agent gets a working directory for the thread, a shell, file tools,
-   and a PreToolUse hook that refuses pushes to main, force pushes, `rm -rf`
-   outside the working copy, `sudo`, and clones of any other repository.
+2. The agent gets a working directory for the thread, a shell and file tools.
+   A hook refuses pushes to main, force pushes, `rm -rf` outside the working
+   copy, `sudo`, and clones of any other repository.
 3. It branches, makes the change, runs the tests, pushes, opens the PR, and
    its final message is the reply.
 4. The session id is stored as a label on the thread, so the next message
@@ -39,7 +39,6 @@ Mail from anyone else is not read and not answered.
 
 ## Customize
 
-- `ALLOWED_REPOS` is the blast radius. Start with one.
-- `MAX_TURNS` (default 60) is the budget per task.
-- The rules in `SYSTEM_PROMPT` — branch, never main; ask rather than guess —
-  are the ones that held. Keep them.
+- `ALLOWED_REPOS` — start with one.
+- `MAX_TURNS` (default 60) — the budget per task.
+- `SYSTEM_PROMPT` in `agent.py` — how it works a task.
