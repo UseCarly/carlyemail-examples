@@ -22,15 +22,6 @@ python agent.py                   # one pass
 uvicorn webhook:app --port 8080   # or: run when mail arrives
 ```
 
-## It ran
-
-Same two emails into each — an invoice-address question and a $189 refund
-request. All three answered the first on its thread and left the second as an
-unsent draft. The OpenAI variant's reply:
-
-> Yes — this address is fine for monthly invoices. If you'd prefer a dedicated
-> billing inbox, let me know and I can confirm one.
-
 ## What the prompts insist on
 
 - Five named tools, not all of them

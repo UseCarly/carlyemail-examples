@@ -37,10 +37,3 @@ export CARLYEMAIL_API_KEY=ce_us_...
 export CARLYEMAIL_INBOX=signups@carlyemail.com
 python codes.py @github.com        # waits, prints the code
 ```
-
-## It ran
-
-A sign-up email — *"Your Northwind Dispatch verification code is 482913. It
-expires in 10 minutes. … Order #77120 is unaffected."* — arrived three seconds
-after `wait_for_code` started polling. It returned `482913` 6.5 s after the
-call. Tests in `tests/test_codes.py` cover the other shapes.

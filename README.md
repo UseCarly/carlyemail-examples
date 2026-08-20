@@ -1,7 +1,6 @@
 # CarlyEmail examples
 
-Agents with a real email address. Clone one, add two keys, and it is
-answering mail.
+Agents with a real email address. Clone one, add two keys, run it.
 
 [CarlyEmail](https://docs.carlyemail.com) gives an agent an inbox: send,
 receive, reply on the right thread, get woken when mail arrives.

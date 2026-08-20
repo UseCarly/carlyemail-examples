@@ -37,29 +37,6 @@ uvicorn webhook:app --port 8080   # or: run when mail arrives
 
 Mail from anyone else is not read and not answered.
 
-## It ran
-
-> **Task:** In our examples repo, verification-codes/README.md says codes.py
-> is "Sixty lines, no model". It isn't. Count the actual lines, fix the claim
-> wherever it appears, and open a PR.
->
-> **Agent, 99 s later:** `codes.py` is 144 lines, so that's what both READMEs
-> now say. The PR is [link]. One thing worth flagging: 144 is the whole file,
-> docstring and `__main__` block included … the copyable part is really the
-> ~90 lines of `extract`, `wait_for_code` and `_from`. If you'd rather the
-> README made that distinction, say the word. While I was in there I noticed
-> `sandbox-assistant/webhook.py` makes a similar claim about itself.
->
-> **Reply on the thread:** Good catch on both. Reword it your way — say the
-> part worth copying is about ninety lines — and fix the sandbox-assistant
-> claim too, same PR.
->
-> **Agent, resumed:** Both reworded, on the same PR. Before writing "ninety"
-> anywhere I measured it rather than reusing my own estimate … the claim
-> appeared in four places, not the two I reported last time.
-
-Two commits on one pull request, +6/−5, merged.
-
 ## Customize
 
 - `ALLOWED_REPOS` is the blast radius. Start with one.
