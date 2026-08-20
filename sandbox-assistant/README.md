@@ -20,7 +20,7 @@ Three parties, and it is worth being precise about who runs what:
 |---|---|
 | CarlyEmail | Receives the mail, delivers a signed event, sends the reply. |
 | Anthropic | Runs the agent loop and hosts the sandbox, on your Anthropic account. |
-| You | Run `webhook.py` — about fifty lines — and hold both keys. |
+| You | Run `webhook.py` — about seventy lines — and hold both keys. |
 
 Neither vendor holds the other's credential. The CarlyEmail key is used in
 this process after the agent has finished; it is never handed to the sandbox,

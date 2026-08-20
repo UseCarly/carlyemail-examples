@@ -7,7 +7,7 @@ what. Three parties:
 
     CarlyEmail   receives the mail and delivers a signed event. Nothing else.
     Anthropic    runs the agent loop and hosts the sandbox it works in.
-    You          run these fifty lines, and hold both keys.
+    You          run these seventy lines, and hold both keys.
 
 Neither vendor holds the other's credential. The CarlyEmail key stays in this
 process and is used here, after the agent has finished — it is never handed to

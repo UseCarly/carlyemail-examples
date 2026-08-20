@@ -183,6 +183,7 @@ def managed_agent(monkeypatch):
 
 ALL = ["openai_agent", "research_agent", "claude_agent", "langchain_agent", "just_claude", "negotiation_buyer",
     "support_desk",
+    "coding_agent",
 ]
 
 
@@ -191,6 +192,14 @@ def support_desk(monkeypatch):
     agent = Recorder()
     monkeypatch.setenv("HUMAN", "priya@example.com")
     module = load("support-desk", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
+    return module, agent
+
+
+@pytest.fixture
+def coding_agent(monkeypatch):
+    agent = Recorder()
+    monkeypatch.setenv("ALLOWED_REPOS", "example-org/example-repo")
+    module = load("coding-agent", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
     return module, agent
 
 

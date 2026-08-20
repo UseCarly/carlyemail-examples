@@ -9,11 +9,12 @@ things you can build with that.
 
 | | What it does | Shows off |
 |---|---|---|
+| [**Coding agent**](coding-agent) | Email it a task about a repository. It clones, makes the change on a branch, opens a pull request, and replies with the link. Reply on the thread and it resumes the same session. Claude Agent SDK. | A shell behind an address, with the three things that make that safe; a thread as a session |
 | [**Support desk**](support-desk) | Answers support mail from the product's own docs, citing the page. Hands the rest to a person with a summary, tells the customer who has it, nudges the person a day later, and relays their answer back. Labels every thread. | Triage you can see in the inbox; escalation that does not die; a prompt injection handled |
 | [**Negotiation**](negotiation) | A buyer with a budget and a seller with a floor haggle across a real thread until there is a deal, or there is not. Code enforces the budget, whatever the model is told. | One conversation across many turns; two agents on a neutral protocol |
 | [**Approval inbox**](approval-inbox) | The agent never sends on its own. It drafts, emails you the draft, and you reply `send` — or tell it what to change. | Human in the loop with no dashboard; drafts that wait |
 | [**Research assistant**](research-assistant) | Email it a question; it searches the web and replies in-thread with the answer and the URLs it used. | A tool list that cannot be talked into mailing a stranger |
-| [**Verification codes**](verification-codes) | An address your agent signs up for things with. The site emails a code; `wait_for_code()` hands it back. Sixty lines, no model. | Agents that can complete a sign-up |
+| [**Verification codes**](verification-codes) | An address your agent signs up for things with. The site emails a code; `wait_for_code()` hands it back. About ninety lines, no model. | Agents that can complete a sign-up |
 
 Below those, the wiring:
 
@@ -73,4 +74,5 @@ desk and the negotiation for the two versions of that.
 
 Every example runs wherever you run it, against your own model key; CarlyEmail
 never sees it, and the model provider never sees your CarlyEmail key. The ones
-here ran on `gpt-5-mini` unless the README says otherwise.
+here ran on `gpt-5-mini` unless the README says otherwise; the coding agent
+runs on Claude through the Agent SDK.

@@ -16,8 +16,9 @@ code = wait_for_code(carly, inbox["email"], sender="@github.com", timeout=120)
 code.value                                              # "482913"
 ```
 
-`codes.py` is the whole thing: sixty lines, no model. Copy it into the agent
-that needs it.
+`codes.py` is the whole thing: no model, and about ninety lines worth
+copying once you drop the module docstring and the `python codes.py` block
+at the bottom. Copy it into the agent that needs it.
 
 ## What it gets right
 
