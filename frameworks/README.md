@@ -1,22 +1,20 @@
-# Your framework, wired to an inbox
+# The smallest email agent, on your framework
 
-The smallest useful email agent, once per framework. It reads what arrived,
-answers what it can from the thread, and writes a draft — instead of sending
-— when the request needs a commitment it cannot verify.
+It reads what arrived, answers what it can, and saves a draft instead of
+sending when the answer needs a person — like approving a refund.
 
-| Variant | Framework | Model auth |
+| | Framework | Key |
 |---|---|---|
 | [`openai/`](openai) | OpenAI Agents SDK | `OPENAI_API_KEY` |
-| [`langchain/`](langchain) | LangChain + LangGraph | `OPENAI_API_KEY` |
+| [`langchain/`](langchain) | LangChain | `OPENAI_API_KEY` |
 | [`claude/`](claude) | Claude Agent SDK | `ANTHROPIC_API_KEY` |
 
-All three connect to the hosted MCP server, so there are no tool wrappers
-to write.
+All three connect over MCP. The email part is the same in each.
 
 ```bash
 cd openai        # or langchain, or claude
 pip install -r requirements.txt
 cp .env.example .env
-python agent.py                   # one pass
-uvicorn webhook:app --port 8080   # or: run when mail arrives
+python agent.py                   # run once
+uvicorn webhook:app --port 8080   # or run whenever mail arrives
 ```

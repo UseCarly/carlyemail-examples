@@ -2,18 +2,15 @@
 
 Agents with a real email address. Clone one, add two keys, run it.
 
-[CarlyEmail](https://docs.carlyemail.com) gives an agent an inbox: send,
-receive, reply on the right thread, get woken when mail arrives.
-
 | | |
 |---|---|
-| [**Coding agent**](coding-agent) | Email it a task about a repo. It opens a pull request and replies with the link; reply on the thread and it carries on. Claude Agent SDK. |
-| [**Support desk**](support-desk) | Answers from your docs, citing the page. Escalates the rest to a person with a summary, and relays the answer back. OpenAI Agents SDK. |
-| [**Verification codes**](verification-codes) | An address your agent signs up for things with. `wait_for_code()` hands back the code the site emails. No model. |
+| [**Coding agent**](coding-agent) | Email it a task about a repo. It opens a pull request and replies with the link. Claude Agent SDK. |
+| [**Support desk**](support-desk) | Answers support mail from your docs. Escalates the rest to a person, and relays the answer back. OpenAI Agents SDK. |
+| [**Verification codes**](verification-codes) | An address your agent signs up for things with. It reads the code the site emails. |
 
-Wiring, one per framework: [`frameworks/`](frameworks) (OpenAI Agents SDK,
-LangChain, Claude Agent SDK over hosted MCP), [`email-claude/`](email-claude),
-[`sandbox-assistant/`](sandbox-assistant), [`replit-email-agent/`](replit-email-agent).
+Also: the smallest agent on each framework in [`frameworks/`](frameworks),
+[`email-claude/`](email-claude), [`sandbox-assistant/`](sandbox-assistant),
+and a one-click [`replit-email-agent/`](replit-email-agent).
 
 ## Quick start
 
@@ -23,12 +20,12 @@ npx carlyemail verify 123456            # the code from your email
 
 cd support-desk
 pip install -r requirements.txt
-cp .env.example .env                    # model key, CarlyEmail key, inbox
-python agent.py                         # one pass over the inbox
+cp .env.example .env
+python agent.py
 ```
 
-Every example has an `agent.py` (one pass) and a `webhook.py` (the same pass
-when mail arrives).
+Each example has an `agent.py` (runs once over the inbox) and a `webhook.py`
+(runs whenever mail arrives).
 
 ## License
 

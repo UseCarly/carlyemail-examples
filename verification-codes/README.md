@@ -2,8 +2,8 @@
 
 > An address your agent signs up for things with.
 
-Most sign-ups end with "we emailed you a code". An agent with an inbox reads
-it and carries on.
+Most sign-ups end with "we emailed you a code". Give the agent an inbox and
+it reads the code itself.
 
 ```python
 from carlyemail import CarlyEmail
@@ -18,16 +18,13 @@ code = wait_for_code(carly, inbox["email"], sender="@github.com")
 code.value                                              # "482913"
 ```
 
-`codes.py` is the whole thing. No model. Copy it into the agent that needs
-it.
+`codes.py` is the whole thing. No model. Copy it into your agent.
 
 ## What it does
 
-- Waits only for mail that arrived after you called it
-- Filters by sender, as an address or a domain
-- Finds the code, not the order number — digits next to *code*, *verify*,
-  *one-time*; six digits preferred
-- Raises after `timeout` seconds
+- Waits for a new email from the sender you name
+- Picks out the code, not the order number
+- Gives up after `timeout` seconds
 
 ## Run it
 

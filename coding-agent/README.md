@@ -2,10 +2,9 @@
 
 > Email it a task. Get a pull request back.
 
-A coding agent whose only interface is email. It clones the repository, makes
-the change on a branch, opens a pull request, and replies on your thread with
-the link. Reply on the thread and it resumes the same session — same working
-copy, same context.
+It clones the repo, makes the change on a branch, opens a pull request, and
+replies with the link. Reply on the thread and it continues where it left
+off.
 
 Built on the [Claude Agent SDK](https://platform.claude.com/docs/en/agent-sdk/overview).
 
@@ -13,32 +12,27 @@ Built on the [Claude Agent SDK](https://platform.claude.com/docs/en/agent-sdk/ov
 
 - A CarlyEmail key and inbox — `npx carlyemail signup`
 - An Anthropic key
-- `gh` logged in as the identity that should open the pull requests
-- `ALLOWED_SENDERS` (who may give it work) and `ALLOWED_REPOS` (where) — both
-  required
+- `gh` logged in
+- `ALLOWED_SENDERS` — who can give it work
+- `ALLOWED_REPOS` — which repos it can work in
 
 ```bash
 pip install -r requirements.txt
 cp .env.example .env
-python agent.py                   # one pass
-uvicorn webhook:app --port 8080   # or: run when mail arrives
+python agent.py                   # run once
+uvicorn webhook:app --port 8080   # or run whenever mail arrives
 ```
 
 ## How it works
 
-1. A task arrives from an allowed sender naming an allowed repository.
-2. The agent gets a working directory for the thread, a shell and file tools.
-   A hook refuses pushes to main, force pushes, `rm -rf` outside the working
-   copy, `sudo`, and clones of any other repository.
-3. It branches, makes the change, runs the tests, pushes, opens the PR, and
-   its final message is the reply.
-4. The session id is stored as a label on the thread, so the next message
-   resumes it.
-
-Mail from anyone else is not read and not answered.
+1. A task arrives from someone on `ALLOWED_SENDERS`, naming a repo on
+   `ALLOWED_REPOS`. Anyone else is ignored.
+2. The agent clones it, branches, makes the change, runs the tests, opens
+   the PR. It can't push to main or touch other repos.
+3. Its summary is the reply. The thread is the session.
 
 ## Customize
 
 - `ALLOWED_REPOS` — start with one.
-- `MAX_TURNS` (default 60) — the budget per task.
-- `SYSTEM_PROMPT` in `agent.py` — how it works a task.
+- `MAX_TURNS` — how much work one task can take. Default 60.
+- `SYSTEM_PROMPT` in `agent.py` — how it works.
