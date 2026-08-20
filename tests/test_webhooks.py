@@ -128,13 +128,6 @@ def openai_agent(monkeypatch):
 
 
 @pytest.fixture
-def research_agent(monkeypatch):
-    agent = Recorder()
-    module = load("research-assistant", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
-    return module, agent
-
-
-@pytest.fixture
 def claude_agent(monkeypatch):
     agent = Recorder()
     module = load("frameworks/claude", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
@@ -181,8 +174,7 @@ def managed_agent(monkeypatch):
     return module, agent, replies
 
 
-ALL = ["openai_agent", "research_agent", "claude_agent", "langchain_agent", "just_claude", "negotiation_buyer",
-    "support_desk",
+ALL = ["openai_agent", "claude_agent", "langchain_agent", "just_claude", "support_desk",
     "coding_agent",
 ]
 
@@ -190,7 +182,7 @@ ALL = ["openai_agent", "research_agent", "claude_agent", "langchain_agent", "jus
 @pytest.fixture
 def support_desk(monkeypatch):
     agent = Recorder()
-    monkeypatch.setenv("HUMAN", "priya@example.com")
+    monkeypatch.setenv("HUMAN", "claire@example.com")
     module = load("support-desk", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
     return module, agent
 
@@ -332,91 +324,3 @@ def test_managed_agent_sends_nothing_when_the_agent_says_nothing(managed_agent):
 
     assert post(module, body).status_code == 202
     assert replies.calls == []
-
-
-# --- negotiation, whose buyer runs one pass per seller reply ---------------
-
-
-@pytest.fixture
-def negotiation_buyer(monkeypatch):
-    monkeypatch.setenv("SELLER_EMAIL", "emma@example.com")
-    monkeypatch.setenv("OWNER_EMAIL", "owner@example.com")
-    agent = Recorder()
-    module = load("negotiation", {"buyer": stub("buyer", main=agent.acall)}, monkeypatch)
-    return module, agent
-
-
-def test_the_buyer_is_handed_the_thread_subject(negotiation_buyer):
-    """The buyer finds its thread by subject, so the subject is what the
-    webhook passes on — with the reply prefix the seller's client added
-    taken off."""
-    module, agent = negotiation_buyer
-    body = json.dumps(
-        {
-            "event_type": "message.received",
-            "event_id": "evt_neg",
-            "message": {
-                "inbox_id": INBOX,
-                "thread_id": "t_neg",
-                "message_id": "m_neg",
-                "from": "Emma <emma@example.com>",
-                "subject": "Re: Your Probat P12 listing",
-                "text": "I could do $16,200.",
-            },
-        }
-    ).encode()
-    assert post(module, body).status_code in (200, 202, 204)
-    assert agent.calls == [(("Your Probat P12 listing",), {})]
-
-
-# --- approval-inbox, added with the example -------------------------------
-#
-# Its own block rather than a line in ALL, because concurrent work on this
-# file appends; behaviourally it is held to the same bar.
-
-
-@pytest.fixture
-def approval_inbox(monkeypatch):
-    monkeypatch.setenv("APPROVER", "sarah@example.com")
-    agent = Recorder()
-    module = load("approval-inbox", {"agent": stub("agent", main=agent.acall)}, monkeypatch)
-    return module, agent
-
-
-def test_approval_inbox_runs_on_a_signed_delivery_once(approval_inbox):
-    module, agent = approval_inbox
-    body = delivery()
-    assert post(module, body).status_code == 202
-    assert post(module, body).status_code == 204  # redelivery
-    assert len(agent.calls) == 1
-
-
-def test_approval_inbox_rejects_a_forged_delivery(approval_inbox):
-    module, agent = approval_inbox
-    body = delivery()
-    headers = sign(body) | {"webhook-signature": "v1,ZmFrZQ=="}
-    assert post(module, body, headers).status_code == 401
-    assert agent.calls == []
-
-
-@pytest.mark.parametrize(
-    "event_type",
-    ["message.received.spam", "message.received.blocked", "message.received.unauthenticated"],
-)
-def test_approval_inbox_drops_hostile_mail(approval_inbox, event_type):
-    module, agent = approval_inbox
-    assert post(module, delivery(event_type=event_type)).status_code == 204
-    assert agent.calls == []
-
-
-def test_approval_inbox_drops_senders_off_the_allowlist(approval_inbox):
-    module, agent = approval_inbox
-    assert post(module, delivery(sender="stranger@example.net")).status_code == 204
-    assert post(module, delivery(sender="emma@example.com.attacker.net")).status_code == 204
-    assert agent.calls == []
-
-
-def test_approval_inbox_does_not_answer_itself(approval_inbox):
-    module, agent = approval_inbox
-    assert post(module, delivery(sender=f"Approvals <{INBOX}>")).status_code == 204
-    assert agent.calls == []

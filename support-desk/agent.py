@@ -15,7 +15,7 @@ label off.
     export OPENAI_API_KEY=sk-...
     export CARLYEMAIL_API_KEY=ce_us_...
     export CARLYEMAIL_INBOX=support@carlyemail.com
-    export HUMAN=priya@yourcompany.com          # who escalations go to
+    export HUMAN=claire@yourcompany.com          # who escalations go to
     export DOCS=https://docs.carlyemail.com     # what it is allowed to cite
     python agent.py                             # one pass over the inbox
 
