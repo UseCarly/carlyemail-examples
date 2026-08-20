@@ -1,0 +1,30 @@
+# The email half of every example, on every push.
+#
+# The agent half needs a model key and runs for real by hand (each README
+# records when). The half that decides whether a stranger gets to spend your
+# tokens — signature checks, the event filter, sender allowlist, redelivery
+# de-duplication — runs here against real signed deliveries, with the agents
+# stubbed.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        # Every example's requirements at once; the webhook tests import each
+        # example's modules, and those import their framework at the top.
+        run: |
+          pip install pytest
+          for f in $(find . -name requirements.txt -not -path './.venv/*'); do pip install -r "$f"; done
+      - run: pytest -q

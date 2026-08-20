@@ -1,0 +1,8 @@
+carlyemail>=0.4
+carlyemail-toolkit[openai]>=0.1
+openai-agents>=0.2
+pydantic>=2
+python-dotenv>=1
+# Only needed for webhook.py
+fastapi>=0.115
+uvicorn>=0.30

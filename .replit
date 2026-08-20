@@ -1,0 +1,18 @@
+# The repository imports into Replit as a whole; this runs the example built
+# for it. See replit-email-agent/README.md.
+entrypoint = "replit-email-agent/main.py"
+modules = ["python-3.11"]
+
+run = ["sh", "-c", "cd replit-email-agent && pip install -q -r requirements.txt && python main.py"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
+
+[deployment]
+build = "pip install -r replit-email-agent/requirements.txt"
+run = ["sh", "-c", "cd replit-email-agent && python main.py"]
+deploymentTarget = "cloudrun"
+
+[env]
+PORT = "8080"
